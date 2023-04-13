@@ -27,18 +27,17 @@ public class Application {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             name = reader.readLine();
 
-            System.out.println("Введите тип прогноза и нажмите Enter илиexit, чтобы выйти");
+            System.out.println("Введите тип прогноза и нажмите Enter или exit, чтобы выйти");
             randomType = reader.readLine().toLowerCase(Locale.ROOT);
 
-            System.out.print(name + "! ");
             switch (randomType) {
                 case BASIC:
-                    Random random = new Random(System.currentTimeMillis());
-                    System.out.println(forecasts.get(random.nextBoolean()));
+                    Random random = new Random(name.length());
+                    System.out.println(name + "! " + forecasts.get(random.nextBoolean()));
                     break;
                 case SECURE:
                     SecureRandom secureRandom = new SecureRandom(name.getBytes(StandardCharsets.UTF_8));
-                    System.out.println(forecasts.get(secureRandom.nextBoolean()));
+                    System.out.println(name + "! " + forecasts.get(secureRandom.nextBoolean()));
                     break;
                 case EXIT:
                     break;
