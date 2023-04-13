@@ -32,18 +32,19 @@ public class Application {
 
             switch (randomType) {
                 case BASIC:
-                    Random random = new Random(name.length());
-                    System.out.println(name + "! " + forecasts.get(random.nextBoolean()));
+                    System.out.println(name + "! " +
+                            forecasts.get(new Random(name.length()).nextBoolean()));
                     break;
                 case SECURE:
-                    SecureRandom secureRandom = new SecureRandom(name.getBytes(StandardCharsets.UTF_8));
-                    System.out.println(name + "! " + forecasts.get(secureRandom.nextBoolean()));
+                    System.out.println(name + "! " +
+                            forecasts.get(new SecureRandom(name.getBytes(StandardCharsets.UTF_8)).nextBoolean()));
                     break;
                 case EXIT:
                     break;
                 default:
                     System.out.println("Wrong type");
             }
+            reader.close();
         }
     }
 }
