@@ -18,13 +18,15 @@ public class Application {
                 true, "У вас сегодня будет удача в делах!",
                 false, "Сегодня хороший день для саморазвития!"
         );
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
         String randomType = "";
         String name = "";
 
         while (!randomType.equals(EXIT)) {
 
             System.out.println("Введите имя и нажмите Enter");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
             name = reader.readLine();
 
             System.out.println("Введите тип прогноза и нажмите Enter или exit, чтобы выйти");
@@ -32,19 +34,18 @@ public class Application {
 
             switch (randomType) {
                 case BASIC:
-                    System.out.println(name + "! " +
-                            forecasts.get(new Random(name.length()).nextBoolean()));
+                    System.out.println(name + "! " + forecasts.get(new Random(name.length()).nextBoolean()));
                     break;
                 case SECURE:
-                    System.out.println(name + "! " +
-                            forecasts.get(new SecureRandom(name.getBytes(StandardCharsets.UTF_8)).nextBoolean()));
+                    System.out.println(name + "! " + forecasts.get(new SecureRandom(name.getBytes(StandardCharsets.UTF_8)).nextBoolean()));
                     break;
                 case EXIT:
                     break;
                 default:
                     System.out.println("Wrong type");
             }
-            reader.close();
         }
+
+        reader.close();
     }
 }
