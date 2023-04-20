@@ -30,32 +30,15 @@ public class CryptUtils {
         return DigestUtils.sha256Hex(string);
     }
 
-    public static byte[] encrypt(String data) {
+    public static byte[] processData(byte[] data, int cipherMode) {
         try {
-            Cipher cipher = initCipher(Cipher.ENCRYPT_MODE);
-            return cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return new byte[0];
-        }
-
-    }
-
-    public static byte[] decrypt(byte[] data) {
-        try {
-            Cipher cipher = initCipher(Cipher.DECRYPT_MODE);
+            Cipher cipher = Cipher.getInstance(CYPHER_PARAMS, PROVIDER);
+            cipher.init(cipherMode, getKey(), new IvParameterSpec(new byte[16]));
             return cipher.doFinal(data);
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return new byte[0];
         }
-
-    }
-
-    private static Cipher initCipher(int cipherMode) throws Exception {
-        Cipher cipher = Cipher.getInstance(CYPHER_PARAMS, PROVIDER);
-        cipher.init(cipherMode, getKey(), new IvParameterSpec(new byte[16]));
-        return cipher;
     }
 
     private static SecretKey getKey() throws NoSuchAlgorithmException {

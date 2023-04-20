@@ -3,9 +3,14 @@ package ru.crypto.hw.service;
 import org.apache.commons.lang3.StringUtils;
 import ru.crypto.hw.utils.CryptUtils;
 
+import javax.crypto.Cipher;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+
+import static javax.crypto.Cipher.DECRYPT_MODE;
+import static javax.crypto.Cipher.ENCRYPT_MODE;
 
 public class EncryptionService {
 
@@ -28,7 +33,7 @@ public class EncryptionService {
             return null;
         }
         String hash = CryptUtils.hash(data);
-        byte[] encryptedResult = CryptUtils.encrypt(hash);
+        byte[] encryptedResult = CryptUtils.processData(hash.getBytes(StandardCharsets.UTF_8), ENCRYPT_MODE);
         System.out.println("Hash: " + hash + "\n" +
                 "Encrypted data: " + new String(encryptedResult));
 
@@ -36,7 +41,7 @@ public class EncryptionService {
     }
 
     public String decrypt(byte [] data) {
-        String decrypt = new String(CryptUtils.decrypt(data));
+        String decrypt = new String(CryptUtils.processData(data, DECRYPT_MODE));
         System.out.println("Decrypted data: " + decrypt);
 
         return decrypt;
