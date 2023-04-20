@@ -1,5 +1,6 @@
 package ru.crypto.hw;
 
+import ru.crypto.hw.service.EncryptionService;
 import ru.crypto.hw.service.ForecastService;
 
 import java.io.IOException;
@@ -31,6 +32,12 @@ public class Application {
 
                 break;
             case ENCRYPTION_SCENARIO:
+                EncryptionService encryptionService = new EncryptionService();
+                String secretWord = encryptionService.readData();
+                byte[] encryptedData = encryptionService.encrypt(secretWord);
+                String decryptedHash = encryptionService.decrypt(encryptedData);
+                encryptionService.checkHash(decryptedHash, secretWord);
+
                 break;
             default:
                 System.out.println("Error. Wrong scenario");
