@@ -1,53 +1,40 @@
 package ru.crypto.hw;
 
-import java.io.BufferedReader;
+import ru.crypto.hw.service.ForecastService;
+
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.security.SecureRandom;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Random;
 
 public class Application {
 
-    public static final String BASIC = "basic";
-    public static final String SECURE = "secure";
-    public static final String EXIT = "exit";
+    private static final String FORECAST_SCENARIO = "1";
+    private static final String ENCRYPTION_SCENARIO = "2";
 
+    /**
+     *
+     * @param args приминает на вход один аргумент - номер сценария
+     *             1 - прогнозы (1 дз)
+     *             2 - Шифр (2 дз)
+     *
+     */
     public static void main(String[] args) throws IOException {
-        Map<Boolean, String> forecasts = Map.of(
-                true, "У вас сегодня будет удача в делах!",
-                false, "Сегодня хороший день для саморазвития!"
-        );
+        
+        if (args.length == 0) {
+            System.out.println("Error. Zero arguments passed to application");
+            return;
+        }
+        
+        switch (args[0]) {
+            case FORECAST_SCENARIO:
+                ForecastService forecastService = new ForecastService();
+                forecastService.readForecastInfo()
+                        .ifPresent(forecastService::printForecast);
 
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-        String randomType = "";
-        String name = "";
-
-        while (!randomType.equals(EXIT)) {
-
-            System.out.println("Введите имя и нажмите Enter");
-            name = reader.readLine();
-
-            System.out.println("Введите тип прогноза и нажмите Enter или exit, чтобы выйти");
-            randomType = reader.readLine().toLowerCase(Locale.ROOT);
-
-            switch (randomType) {
-                case BASIC:
-                    System.out.println(name + "! " + forecasts.get(new Random(name.length()).nextBoolean()));
-                    break;
-                case SECURE:
-                    System.out.println(name + "! " + forecasts.get(new SecureRandom(name.getBytes(StandardCharsets.UTF_8)).nextBoolean()));
-                    break;
-                case EXIT:
-                    break;
-                default:
-                    System.out.println("Wrong type");
-            }
+                break;
+            case ENCRYPTION_SCENARIO:
+                break;
+            default:
+                System.out.println("Error. Wrong scenario");
         }
 
-        reader.close();
     }
 }
