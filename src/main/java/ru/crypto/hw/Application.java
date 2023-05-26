@@ -1,20 +1,22 @@
 package ru.crypto.hw;
 
-import ru.crypto.hw.service.EncryptionService;
+import ru.crypto.hw.dto.Scenario;
+import ru.crypto.hw.service.AsymmetricEncryptionService;
+import ru.crypto.hw.service.SymmetricEncryptionService;
 import ru.crypto.hw.service.ForecastService;
 
 import java.io.IOException;
+import java.security.Signature;
 
 public class Application {
-
-    private static final String FORECAST_SCENARIO = "1";
-    private static final String ENCRYPTION_SCENARIO = "2";
 
     /**
      *
      * @param args приминает на вход один аргумент - номер сценария
      *             1 - прогнозы (1 дз)
-     *             2 - Шифр (2 дз)
+     *             2 - Симметричное Шифрование (2 дз)
+     *             3 - Ассиметричное шифрование + ЦП (3 дз)
+     *             4 -
      *
      */
     public static void main(String[] args) throws IOException {
@@ -23,21 +25,29 @@ public class Application {
             System.out.println("Error. Zero arguments passed to application");
             return;
         }
-        
-        switch (args[0]) {
+
+        Scenario scenario = Scenario.get(args[0]);
+        switch (scenario) {
             case FORECAST_SCENARIO:
                 ForecastService forecastService = new ForecastService();
                 forecastService.readForecastInfo()
                         .ifPresent(forecastService::printForecast);
 
                 break;
-            case ENCRYPTION_SCENARIO:
-                EncryptionService encryptionService = new EncryptionService();
-                String secretWord = encryptionService.readData();
-                byte[] encryptedData = encryptionService.encrypt(secretWord);
-                String decryptedHash = encryptionService.decrypt(encryptedData);
-                encryptionService.checkHash(decryptedHash, secretWord);
+            case SYMMETRIC_ENCRYPTION_SCENARIO:
+                SymmetricEncryptionService symmetricEncryptionService = new SymmetricEncryptionService();
+                String secretWord = symmetricEncryptionService.readData();
+                byte[] encryptedData = symmetricEncryptionService.encrypt(secretWord);
+                String decryptedHash = symmetricEncryptionService.decrypt(encryptedData);
+                symmetricEncryptionService.checkHash(decryptedHash, secretWord);
 
+                break;
+            case ASYMMETRIC_ENCRYPTION_SCENARIO:
+                AsymmetricEncryptionService asymmetricEncryptionService = new AsymmetricEncryptionService();
+                byte[] encrypt = asymmetricEncryptionService.encrypt("Java");
+                Signature signature = asymmetricEncryptionService.makeSign(encrypt);
+
+                System.out.println("Generated signature object:" + signature.toString());
                 break;
             default:
                 System.out.println("Error. Wrong scenario");
