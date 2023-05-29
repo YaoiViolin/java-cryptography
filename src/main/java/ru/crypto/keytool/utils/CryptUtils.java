@@ -1,4 +1,4 @@
-package ru.crypto.keytool;
+package ru.crypto.keytool.utils;
 
 import javax.crypto.Cipher;
 import java.security.Key;
