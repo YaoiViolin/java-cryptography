@@ -2,10 +2,10 @@ package ru.crypto.hw;
 
 import ru.crypto.hw.dto.Scenario;
 import ru.crypto.hw.service.AsymmetricEncryptionService;
+import ru.crypto.hw.service.PBEncryptionService;
 import ru.crypto.hw.service.SymmetricEncryptionService;
 import ru.crypto.hw.service.ForecastService;
 
-import java.io.IOException;
 import java.security.Signature;
 
 public class Application {
@@ -16,10 +16,10 @@ public class Application {
      *             1 - прогнозы (1 дз)
      *             2 - Симметричное Шифрование (2 дз)
      *             3 - Ассиметричное шифрование + ЦП (3 дз)
-     *             4 -
+     *             4 - Шифрование на основе пароля (4 дз)
      *
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         
         if (args.length == 0) {
             System.out.println("Error. Zero arguments passed to application");
@@ -49,6 +49,13 @@ public class Application {
 
                 System.out.println("Generated signature object:" + signature.toString());
                 break;
+            case PASSWORD_BASED_ENCRYPTION_SCENARIO:
+
+                PBEncryptionService pbEncryptionService = new PBEncryptionService();
+                byte[] pbEncrypted = pbEncryptionService.encrypt("Java");
+                break;
+
+
             default:
                 System.out.println("Error. Wrong scenario");
         }

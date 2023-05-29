@@ -7,7 +7,9 @@ public enum Scenario {
 
     FORECAST_SCENARIO("1"),
     SYMMETRIC_ENCRYPTION_SCENARIO("2"),
-    ASYMMETRIC_ENCRYPTION_SCENARIO("3");
+    ASYMMETRIC_ENCRYPTION_SCENARIO("3"),
+    PASSWORD_BASED_ENCRYPTION_SCENARIO("4")
+    ;
 
     private static Map<String, Scenario> values = new HashMap<>();
     private final String scenarioNumber;
