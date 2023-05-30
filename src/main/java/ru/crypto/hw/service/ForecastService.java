@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
@@ -14,10 +15,10 @@ import java.util.Random;
 
 public class ForecastService {
 
-    private final Map<Boolean, String> forecasts = Map.of(
-            true, "У вас сегодня будет удача в делах!",
-            false, "Сегодня хороший день для саморазвития!"
-    );
+    private final Map<Boolean, String> forecasts = new HashMap<Boolean, String>() {{
+        put(true, "У вас сегодня будет удача в делах!");
+        put(false, "Сегодня хороший день для саморазвития!");
+    }};
 
     public static final String BASIC = "basic";
     public static final String SECURE = "secure";
